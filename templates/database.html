@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Database</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+        }
+        .button-container {
+            margin-bottom: 20px;
+        }
+        .button {
+            color: white;
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .edit-button {
+            color: white;
+            background-color: #4CAF50;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .search-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .search-input {
+            width: 80%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>All Policies</h1>
+
+        <div class="button-container">
+            <a href="{{ url_for('index') }}" class="button">Create New Policy</a>
+        </div>
+
+        <!-- Search bar container -->
+        <div class="search-container">
+            <input type="text" id="searchBar" class="search-input" placeholder="Search policies..." onkeyup="searchPolicies()">
+        </div>
+
+        <table id="policyTable">
+            <tr>
+                <th>Policy Number</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email Address</th>
+                <th>Vehicle Registration</th>
+                <th>Effective Date/Time</th>
+                <th>Expiry Date/Time</th>
+                <th>Actions</th>
+            </tr>
+            {% for policy in policies %}
+            <tr class="policy-row">
+                <td>{{ policy.policy_num }}</td>
+                <td>{{ policy.first_name }}</td>
+                <td>{{ policy.last_name }}</td>
+                <td>{{ policy.email }}</td>
+                <td>{{ policy.vehicle_reg_number }}</td>
+                <td>{{ policy.policy_start_datetime }}</td>
+                <td>{{ policy.policy_end_datetime }}</td>
+                <td>
+                    <a href="{{ url_for('index', policy_number=policy.policy_num) }}" class="edit-button">Edit</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script>
+        function searchPolicies() {
+            const searchInput = document.getElementById('searchBar').value.toLowerCase();
+            const policyRows = document.getElementsByClassName('policy-row');
+
+            for (let i = 0; i < policyRows.length; i++) {
+                const row = policyRows[i];
+                const rowText = row.textContent.toLowerCase();
+                
+                if (rowText.includes(searchInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

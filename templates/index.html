@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Insurance Certificate Generator</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Changed from center to flex-start */
+    padding-top: 50px; /* Add some padding at the top */
+    min-height: 100vh; /* Ensure it covers the full viewport height */
+    background-color: #f2f2f2;
+}
+
+.container {
+    width: 80%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="time"],
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+    </style>
+	</style>
+    <!-- Cache Control Meta Tags -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+</head>
+<body>
+    <div class="container">
+        <h1>Generate Vehicle Insurance Certificate</h1>
+        <form action="/send_email" method="post" id="insurance_form">
+            <label for="vehicle_reg_number">Vehicle Registration Number:</label>
+            <input type="text" id="vehicle_reg_number" name="vehicle_reg_number" required value="{{ policy['vehicle_reg_number'] if policy else '' }}">
+
+            <label for="insured">First Name</label>
+			<input type="text" id="First_name" name="First_name" required value="{{ policy['first_name'] if policy else '' }}">
+
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" required value="{{ policy['last_name'] if policy else '' }}">
+			<label for="sex">Sex:</label>
+            <input type="text" id="sex" name="sex" placeholder="Enter sex" value="{{ policy['sex'] if policy else '' }}">
+
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" placeholder="Enter title" value="{{ policy['title'] if policy else '' }}">
+			
+			<label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required value="{{ policy['dob'] if policy else '' }}">
+			
+            <label for="telephone">Telephone:</label>
+            <input type="text" id="telephone" name="telephone" required value="{{ policy['telephone'] if policy else '' }}">
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required value="{{ policy['address'] if policy else '' }}">
+
+			<label for="address2">Address Line 2:</label>
+            <input type="text" id="address2" name="address2" required value="{{ policy['address2'] if policy else '' }}">
+			
+			<label for="address3">Address Line 3:</label>
+            <input type="text" id="address3" name="address3" required value="{{ policy['address3'] if policy else '' }}">
+			
+			<label for="postcode">Post Code:</label>
+            <input type="text" id="postcode" name="postcode" required value="{{ policy['postcode'] if policy else '' }}">
+
+            <label for="make">Make:</label>
+            <input type="text" id="make" name="make" required value="{{ policy['make'] if policy else '' }}">
+
+            <label for="model">Model:</label>
+            <input type="text" id="model" name="model" required value="{{ policy['model'] if policy else '' }}">
+
+            <div class="vehicle-value-section">
+                <label>Vehicle Value:</label>
+                <div class="vehicle-value-inputs">
+                    <div>
+                        <label for="vehicle_value_from">From: £</label>
+                        <input type="text" id="vehicle_value_from" name="vehicle_value_from" required value="{{ policy['vehicle_value_from'] if policy else '' }}">
+                    </div>
+                    <div>
+                        <label for="vehicle_value_to">To: £</label>
+                        <input type="text" id="vehicle_value_to" name="vehicle_value_to" required value="{{ policy['vehicle_value_to'] if policy else '' }}">
+                    </div>
+                </div>
+            </div>
+
+            <label for="effective_date">Effective Date:</label>
+            <input type="date" id="effective_date" name="effective_date" value="{{ policy['effective_date'] if policy and policy.get('effective_date') else '' }}">
+
+            <label for="effective_time">Effective Time:</label>
+            <input type="time" id="effective_time" name="effective_time" value="{{ policy['effective_time'] if policy and policy.get('effective_time') else '' }}">
+
+            <label for="expiry_date">Expiry Date:</label>
+            <input type="date" id="expiry_date" name="expiry_date" required value="{{ policy['expiry_date'] if policy else '' }}">
+
+            <label for="expiry_time">Expiry Time:</label>
+            <input type="time" id="expiry_time" name="expiry_time" required value="{{ policy['expiry_time'] if policy else '' }}">
+			
+			<label for="duration">Policy Duration:</label>
+			<input type="text" id="duration" name="duration" value="{{ policy['duration'] if policy else '' }}">
+
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required value="{{ policy['email'] if policy else '' }}">
+			
+			<label for="kgm_insurer_premium">KGM Insurer Premium:</label>
+            <input type="text" id="kgm_insurer_premium" name="kgm_insurer_premium" required value="{{ policy['kgm_insurer_premium'] if policy else '' }}">
+
+            <label for="insurance_premium_tax">Insurance Premium Tax:</label>
+            <input type="text" id="insurance_premium_tax" name="insurance_premium_tax" required value="{{ policy['insurance_premium_tax'] if policy else '' }}">
+
+            <label for="tempcover_fee">Tempcorver Fee:</label>
+            <input type="text" id="tempcover_fee" name="tempcover_fee" required value="{{ policy['tempcover_fee'] if policy else '' }}">
+
+            <label for="total_charged">Total Charged:</label>
+            <input type="text" id="total_charged" name="total_charged" required value="{{ policy['total_charged'] if policy else '' }}">
+			
+			<label for="policy_number">Policy Number:</label>
+            <input type="text" id="policy_number" name="policy_number" required value="{{ 'TCV-MOT-' + (policy['policy_num'] if policy else '') }}" oninput="maintainPrefix()">
+            
+			<input type="button" value="Store PDF on Server" onclick="setAction('/store_pdf')">
+            <!-- <input type="button" value="Download PDF"  onclick="setAction('/generate_pdf')">
+			<input type="button" value="Download PDF 2"  onclick="setAction('/generate_pdf2')">
+			<input type="button" value="Download PDF 3" onclick="setAction('/generate_third_pdf')"> -->
+			<input type="button" value="Policy Email" onclick="setAction('/send_policy_email')">
+
+        </form>
+    </div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    clearLocalStorageCache();
+    loadFormDataFromLocalStorage();
+    maintainPrefix(); // Ensure prefix is applied after loading from local storage or backend
+});
+
+function formatNumberWithCommas(number) {
+    return number.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function stripNonNumeric(value) {
+    return value.replace(/[^0-9.]/g, '');
+}
+
+function handleVehicleValueInput(event) {
+    var input = event.target;
+    var value = input.value;
+    value = stripNonNumeric(value);
+    if (value) {
+        value = formatNumberWithCommas(value);
+    }
+    input.value = value;
+    calculateTotalCharged();
+}
+
+function calculateTotalCharged() {
+    var kgmValue = parseFloat(stripNonNumeric(document.getElementById('kgm_insurer_premium').value)) || 0;
+    var taxValue = parseFloat(stripNonNumeric(document.getElementById('insurance_premium_tax').value)) || 0;
+    var feeValue = parseFloat(stripNonNumeric(document.getElementById('tempcover_fee').value)) || 0;
+    var totalValue = kgmValue + taxValue + feeValue;
+    document.getElementById('total_charged').value = formatNumberWithCommas(totalValue.toFixed(2).toString());
+}
+
+function maintainPrefix() {
+    const inputField = document.getElementById('policy_number');
+    const prefix = "TCV-MOT-";
+    // Remove any duplicate prefix
+    inputField.value = prefix + inputField.value.replace(new RegExp(`^(${prefix})+`), "");
+}
+
+document.getElementById('kgm_insurer_premium').addEventListener('input', handleVehicleValueInput);
+document.getElementById('insurance_premium_tax').addEventListener('input', handleVehicleValueInput);
+document.getElementById('tempcover_fee').addEventListener('input', handleVehicleValueInput);
+
+function setAction(action) {
+    saveFormDataToLocalStorage();
+    if (action === '/store_pdf') {
+        handleStorePdf();
+    } else if (action === '/send_policy_email') {
+        handlePolicyEmail();
+    } else {
+        const form = document.getElementById('insurance_form');
+        form.action = action + '?ts=' + new Date().getTime();
+        form.submit();
+    }
+}
+
+function saveFormDataToLocalStorage() {
+    var form = document.getElementById('insurance_form');
+    for (var i = 0; i < form.elements.length; i++) {
+        var element = form.elements[i];
+        if (element.name) {
+            localStorage.setItem(element.name, element.value);
+            console.log(`Saving to localStorage: ${element.name} = ${element.value}`);
+        }
+    }
+}
+
+function loadFormDataFromLocalStorage() {
+    var form = document.getElementById('insurance_form');
+    for (var i = 0; i < form.elements.length; i++) {
+        var element = form.elements[i];
+        if (element.name && localStorage.getItem(element.name)) {
+            element.value = localStorage.getItem(element.name);
+            console.log(`Loaded from localStorage: ${element.name} = ${element.value}`);
+        }
+    }
+}
+
+function clearLocalStorageCache() {
+    localStorage.clear();
+}
+
+async function handleStorePdf() {
+    try {
+        const form = document.getElementById('insurance_form');
+        const formData = new FormData(form);
+        const response = await fetch('/store_pdf?ts=' + new Date().getTime(), {
+            method: 'POST',
+            body: formData,
+            headers: {
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
+        });
+        const result = await response.json();
+
+        if (result.exists) {
+            if (confirm(result.message)) {
+                await updatePolicy(formData);
+            }
+        } else {
+            alert(result.message);
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while processing your request.");
+    }
+}
+
+async function updatePolicy(formData) {
+    try {
+        const response = await fetch('/update_policy?ts=' + new Date().getTime(), {
+            method: 'POST',
+            body: formData,
+            headers: {
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
+        });
+        const result = await response.json();
+        alert(result.message);
+    } catch (error) {
+        console.error("Error updating policy:", error);
+        alert("An error occurred while updating the policy.");
+    }
+}
+
+async function handlePolicyEmail() {
+    try {
+        const form = document.getElementById('insurance_form');
+        const formData = new FormData(form);
+
+        const response = await fetch('/send_policy_email', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
+        });
+        const result = await response.json();
+
+        if (result.message) {
+            alert(result.message);
+        } else {
+            alert(result.error);
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while sending the policy email.");
+    }
+}
+</script>
+
+</html>
