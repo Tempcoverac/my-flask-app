@@ -125,6 +125,7 @@ logging.basicConfig(filename='app.log', level=logging.DEBUG,
 from datetime import datetime
 
 @app.route('/database')
+@auth.login_required
 def database():
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -152,6 +153,7 @@ def database():
 
 
 @app.route('/edit_policy/<policy_id>')
+@auth.login_required
 def edit_policy(policy_id):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -191,7 +193,7 @@ def create_new_policy():
 
 
 @app.route('/generate_pdf', methods=['POST'])
-
+@auth.login_required
 def generate_pdf():
     try:
         # Extract data from the form
@@ -227,7 +229,7 @@ def generate_pdf():
     
     
 @app.route('/generate_pdf2', methods=['POST'])
-
+@auth.login_required
 def generate_pdf2():
     try:
         # Extract data from the form
@@ -275,7 +277,7 @@ def generate_pdf2():
 
 
 @app.route('/generate_third_pdf', methods=['POST'])
-
+@auth.login_required
 def generate_third_pdf():
     try:
         title = request.form.get('title').strip()
@@ -314,6 +316,7 @@ def generate_third_pdf():
 
 
 @app.route('/store_pdf', methods=['POST'])
+@auth.login_required
 def store_pdf():
     try:
         print("store_pdf called")  # Check if endpoint is reached
@@ -395,6 +398,7 @@ def store_pdf():
 
 
 @app.route('/update_policy', methods=['POST'])
+@auth.login_required
 def update_policy():
     form_data = request.form
     policy_num = form_data['policy_number']
@@ -426,7 +430,7 @@ def update_policy():
     return jsonify({"message": "Policy updated successfully."})
 
 @app.route('/send_email', methods=['POST'])
-
+@auth.login_required
 def send_email():
     try:
         form_data = request.form
@@ -1614,6 +1618,7 @@ def upload_to_github(file_data, filename, repo_name, directory=""):
 
 
 @app.route('/send_policy_email', methods=['POST'])
+@auth.login_required
 def send_policy_email():
     recipient_email = request.form['email']
     first_name = request.form['First_name']
