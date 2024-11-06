@@ -27,10 +27,22 @@ import logging
 app = Flask(__name__)
 
 
-GITHUB_TOKEN = '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'  
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')  
 REPO_NAME = 'Pkkothapelly/TCFiles'  
 BASE_URL = 'https://api.github.com'
 
+auth = HTTPBasicAuth()
+
+users = {
+    "Wolf": generate_password_hash(os.getenv('ADMIN_PASSWORD')),
+    "user": generate_password_hash(os.getenv('USER_PASSWORD'))
+}
+
+
+@auth.verify_password
+def verify_password(username, password):
+    if username in users and check_password_hash(users.get(username), password):
+        return username
 
 
 @app.route('/login', methods=['GET', 'POST'])
