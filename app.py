@@ -72,9 +72,11 @@ def login_page():
     return render_template('login.html', policy_number=policy_number)
 
 
-
-
 @app.route('/')
+def root():
+    return redirect('/database')
+
+@app.route('/index')
 def index():
     policy_number = request.args.get('policy_number')
     policy_data = None
