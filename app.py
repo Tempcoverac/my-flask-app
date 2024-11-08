@@ -48,6 +48,7 @@ def verify_password(username, password):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
+    policy_number = None
     if request.method == 'POST':
         # Get data from the form submission
         last_name = request.form.get('surname').lower()
