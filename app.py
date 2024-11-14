@@ -22,7 +22,7 @@ from email.mime.text import MIMEText
 from email import encoders
 import sqlite3, time
 import logging
-from turso.client import Client
+from turso import Client
 
 
 app = Flask(__name__)
