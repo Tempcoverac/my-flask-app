@@ -22,7 +22,6 @@ from email.mime.text import MIMEText
 from email import encoders
 import sqlite3, time
 import logging
-from libsql import Client
 
 
 app = Flask(__name__)
