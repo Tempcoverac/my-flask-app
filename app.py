@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, make_response, send_file, jsonify, flash
+from flask import Flask, render_template, request, redirect, url_for, make_response, send_file, jsonify, flash, g
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from reportlab.lib.pagesizes import letter
@@ -22,6 +22,7 @@ from email.mime.text import MIMEText
 from email import encoders
 import sqlite3, time
 import logging
+from turso.client import Client
 
 
 app = Flask(__name__)
@@ -1482,9 +1483,16 @@ def generate_html_content(policy_number, first_name, last_name, vehicle_reg_numb
 
 # Add this function for connecting to the database
 def get_db_connection():
-    conn = sqlite3.connect('insurance.db')
-    conn.row_factory = sqlite3.Row  # Access rows as dictionaries
-    return conn
+    # Connect to the Turso database
+    TURSO_URL = os.getenv("TURSO_URL")  # Set your Turso URL as an environment variable
+    TURSO_API_KEY = os.getenv("TURSO_API_KEY")  # Set your Turso API Key as an environment variable
+    
+    # Initialize Turso Client connection
+    client = Client(TURSO_URL, TURSO_API_KEY)
+    
+    # Since the row factory is specific to sqlite3, 
+    # you may need to adapt how rows are processed depending on the Turso client’s response format.
+    return client
 
 
 def create_policy_table():
