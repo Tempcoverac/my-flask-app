@@ -1484,16 +1484,15 @@ def generate_html_content(policy_number, first_name, last_name, vehicle_reg_numb
 # Add this function for connecting to the database
 def get_db_connection():
     # Connect to the Turso database
-    TURSO_URL = os.getenv("TURSO_URL")  # Set your Turso URL as an environment variable
-    TURSO_API_KEY = os.getenv("TURSO_API_KEY")  # Set your Turso API Key as an environment variable
-    
+    TURSO_DB_URL = os.getenv("TURSO_DB_URL")  # Turso database URL
+    TURSO_DB_TOKEN = os.getenv("TURSO_DB_TOKEN")  # Turso API token
+
     # Initialize Turso Client connection
-    client = Client(TURSO_URL, TURSO_API_KEY)
+    client = Client(TURSO_DB_URL, TURSO_DB_TOKEN)
     
-    # Since the row factory is specific to sqlite3, 
+    # Since the row factory is specific to sqlite3,
     # you may need to adapt how rows are processed depending on the Turso client’s response format.
     return client
-
 
 def create_policy_table():
     conn = get_db_connection()
