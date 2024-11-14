@@ -48,42 +48,38 @@ def verify_password(username, password):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
-    policy_number = None
+    # Check if policy_number is passed as a query parameter
+    policy_number = request.args.get('policy_number', None)
+
     if request.method == 'POST':
-        # Get data from the form submission
         last_name = request.form.get('surname').lower()
         dob_input = request.form.get('dob_display')
         start_date_input = request.form.get('start_date_display')
 
-        # Parse date inputs to match database format (assuming 'YYYY-MM-DD')
+        # Parse date inputs to match database format
         try:
-           dob = datetime.strptime(dob_input, "%d %B %Y").strftime("%Y-%m-%d")
-           start_date = datetime.strptime(start_date_input, "%d %B %Y").strftime("%Y-%m-%d")
-
+            dob = datetime.strptime(dob_input, "%d %B %Y").strftime("%Y-%m-%d")
+            start_date = datetime.strptime(start_date_input, "%d %B %Y").strftime("%Y-%m-%d")
         except ValueError:
-            return jsonify({"error": "Invalid date format. Please use DD Month YYYY format."}), 400
+            error = "Invalid date format. Please use DD Month YYYY format."
+            return render_template('login.html', policy_number=policy_number, error=error)
 
         # Database connection
         conn = get_db_connection()
         cursor = conn.cursor()
-
-        # SQL Query for matching records in policy_data table
-        cursor.execute("SELECT * FROM policy_data WHERE lower(last_name) = ? AND dob = ? AND effective_date = ?", 
+        cursor.execute("SELECT policy_num FROM policy_data WHERE lower(last_name) = ? AND dob = ? AND effective_date = ?", 
                        (last_name, dob, start_date))
         policy = cursor.fetchone()
         conn.close()
 
-        # Check if the policy exists
         if policy:
-            policy_number = policy['policy_num']  # Retrieve the policy number
-            # Redirect to the specific policy page
-            return redirect(f"https://www.tempcover.ac/{policy_number}.html")
+            policy_number = policy['policy_num']
         else:
-            # Return error if no match found
-            return jsonify({"error": "Invalid login details. Please try again."}), 401
+            error = "Invalid login details. Please try again."
+            return render_template('login.html', policy_number=policy_number, error=error)
 
-    # If GET request, render the login page
     return render_template('login.html', policy_number=policy_number)
+
 
 
 @app.route('/')
