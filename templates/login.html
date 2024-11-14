@@ -283,14 +283,79 @@
   </form>
 </body>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script>
-    $(function() {
-      $("#dob_display, #start_date_display").datepicker({
-        dateFormat: "dd MM yy",
-        changeMonth: true,
-        changeYear: true,
-        yearRange: "-100:+0"
-      });
+  $(function() {
+    // Initialize the date picker for date input fields
+    $("#dob_display, #start_date_display").datepicker({
+      dateFormat: "dd MM yy",
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "-100:+0"
     });
-  </script>
+
+    // Apply real-time validation for each input field
+    $('#surname, #dob_display, #start_date_display').on('input change', function() {
+      validateField($(this));
+    });
+
+    // AJAX form submission with validation
+    $('form').on('submit', function(event) {
+      event.preventDefault(); // Prevent normal form submission
+
+      const surname = $('#surname').val().trim();
+      const dob = $('#dob_display').val().trim();
+      const startDate = $('#start_date_display').val().trim();
+
+      // Check if each field is filled and only proceed with AJAX if all fields are valid
+      if (surname && dob && startDate) {
+        $.ajax({
+          url: '/login',
+          method: 'POST',
+          data: {
+            surname: surname,
+            dob_display: dob,
+            start_date_display: startDate
+          },
+          success: function(response) {
+            if (!response.error) {
+              window.location.href = response.redirect_url;
+            } else {
+              showError("We don't have you in our database.");
+            }
+          },
+          error: function() {
+            showError("An error occurred. Please try again later.");
+          }
+        });
+      }
+    });
+
+    // Function to validate each field and apply appropriate border color
+    function validateField(input) {
+      if (input.val().trim() === '') {
+        input.css('border', '2px solid red');
+      } else {
+        input.css('border', '2px solid green');
+      }
+    }
+
+    // Function to display error messages
+    function showError(message) {
+      const errorContainer = $('#error-message');
+      if (errorContainer.length === 0) {
+        $('<div id="error-message" style="color: red; text-align: center; margin-top: 1rem;">')
+          .text(message)
+          .insertAfter('form');
+      } else {
+        errorContainer.text(message);
+      }
+    }
+  });
+</script>
+
+
+
 </html>
