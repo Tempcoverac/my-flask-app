@@ -283,7 +283,9 @@
     text-align: center;
     font-size: 1rem; 
     margin: 0px auto;
+	
     transform: translateY(-80px);
+	padding-right:20px;
   }
   
 
@@ -341,6 +343,62 @@
 }
 
 
+ @media (max-width: 767px) {
+  
+  .phs {
+    margin-left: 0px; /* Adjust left margin */
+    transform: translateY(180px); /* Remove any translations */
+	position:left;
+  }
+
+  .phs .input-container input[type="text"] {
+    width:208%; 
+	margin-left:-43px;
+  }
+  
+  .phs label {
+    text-align: left; /* Align text to the left */
+    margin-left: -55px; /* Add desired left margin */
+	transform:translateY(12px);
+    
+  }
+  .pdob {
+    margin-left: -17px; /* Adjust left margin */
+    transform: translateY(170px); /* Remove any translations */
+	position:left;
+  }
+
+  .pdob .input-container input[type="text"] {
+    width:208%; 
+	margin-left:-43px;
+	position:left;
+  }
+  
+  .pdob label {
+    text-align: left; /* Align text to the left */
+    margin-left: -17px; /* Add desired left margin */
+	
+    
+  }
+  
+  .psd {
+    margin-left: 0px; /* Adjust left margin */
+    transform: translateY(170px); /* Remove any translations */
+	position:left;
+  }
+
+  .psd .input-container input[type="text"] {
+    width:165%; 
+  
+  }
+  
+  .psd label {
+    text-align: left; /* Align text to the left */
+    margin-left: -55px; /* Add desired left margin */
+    
+  }
+}
+
   .form-section {
     margin: 20px auto;
     text-align: center;
@@ -356,11 +414,13 @@
     margin: 20px auto;
     width: 90%;
     text-align: center;
+	transform:translateY(170px);
   }
 
   .submit-button {
-    margin: 20px auto;
-    text-align: center;
+    margin-left: -750px; 
+    transform: translateY(500px); 
+    position: left;
   }
 }
 
