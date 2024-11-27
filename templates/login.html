@@ -224,7 +224,7 @@
 .blue-box {
   width: 320px;
   height: 85px;
-  background-color: #f7f7f7;
+  background-color: #ffffff;
   transform: translateY(-320px);
   margin-left: 750px;
   display: flex;
@@ -412,13 +412,16 @@
     margin: 10px auto;
   }
 
+/* Mobile-specific styles (applies only to screens smaller than 768px) */
+@media (max-width: 768px) {
   .blue-box {
     margin-left: 50px;
     width: 30%;
     text-align: left;
-	transform:translateY(20px);
-	background-color: #ffffff;
+    transform: translateY(20px);
+    background-color: #ffffff;
   }
+}
 
   .submit-button {
     margin-left: -750px; 
@@ -499,17 +502,9 @@
 	
 
 	<div class="blue-box">
-    <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
-    <script src="https://www.google.com/recaptcha/api.js?render=6LdNRnQqAAAAABCqLOeeNBOKS9YHv6zFIknZtKZJ"></script>
-    <script>
-        grecaptcha.ready(function() {
-            grecaptcha.execute('6LdNRnQqAAAAABCqLOeeNBOKS9YHv6zFIknZtKZJ', {action: 'submit'}).then(function(token) {
-                document.getElementById('g-recaptcha-response').value = token;
-            });
-        });
-    </script>
-</div>
-
+      <div class="g-recaptcha" data-sitekey="6LdNRnQqAAAAABCqLOeeNBOKS9YHv6zFIknZtKZJ"></div>
+      
+    </div>
 
       
     <section class="submit">
