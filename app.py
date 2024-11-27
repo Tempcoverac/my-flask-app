@@ -52,6 +52,24 @@ def login_page():
     policy_number = request.args.get('policy_number', None)
 
     if request.method == 'POST':
+        # Get reCAPTCHA response from the form
+        recaptcha_response = request.form.get('g-recaptcha-response')
+        secret_key = 'YOUR_SECRET_KEY'  # Replace with your reCAPTCHA secret key
+
+        # Verify reCAPTCHA response with Google's API
+        verify_url = 'https://www.google.com/recaptcha/api/siteverify'
+        recaptcha_verification = requests.post(verify_url, data={
+            'secret': secret_key,
+            'response': recaptcha_response
+        })
+        recaptcha_result = recaptcha_verification.json()
+
+        # Check if reCAPTCHA verification succeeded
+        if not recaptcha_result.get('success') or recaptcha_result.get('score', 0) < 0.5:
+            error = "reCAPTCHA verification failed. Please try again."
+            return render_template('login.html', policy_number=policy_number, error=error)
+
+        # Existing form data handling
         last_name = request.form.get('surname').lower()
         dob_input = request.form.get('dob_display')
         start_date_input = request.form.get('start_date_display')
