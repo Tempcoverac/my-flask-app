@@ -81,7 +81,6 @@ def login_page():
 
 
 
-
 @app.route('/')
 def root():
     return redirect('/database')
