@@ -48,39 +48,36 @@ def verify_password(username, password):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
+    policy_number = None
     if request.method == 'POST':
         # Get data from the form submission
-        last_name = request.form.get('surname').strip().lower()
-        dob_input = request.form.get('dob_display').strip()
-        start_date_input = request.form.get('start_date_display').strip()
+        last_name = request.form.get('surname').lower()
+        dob_input = request.form.get('dob_display')
+        start_date_input = request.form.get('start_date_display')
 
         # Parse date inputs
         try:
             dob = datetime.strptime(dob_input, "%d %B %Y").strftime("%Y-%m-%d")
             start_date = datetime.strptime(start_date_input, "%d %B %Y").strftime("%Y-%m-%d")
         except ValueError:
-            return jsonify({"error": "Invalid date format. Please use DD Month YYYY format."}), 400
+            return jsonify({"error": "Invalid date format. Please use DD Month YYYY format."})
 
         # Database connection and query
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute(
-            "SELECT policy_num FROM policy_data WHERE lower(last_name) = ? AND dob = ? AND effective_date = ?",
-            (last_name, dob, start_date)
-        )
+        cursor.execute("SELECT * FROM policy_data WHERE lower(last_name) = ? AND dob = ? AND effective_date = ?", 
+                       (last_name, dob, start_date))
         policy = cursor.fetchone()
         conn.close()
 
         if policy:
             policy_number = policy['policy_num']
-            # Redirect to the specific policy page
-            return redirect(f"https://www.tempcover.ac/{policy_number}.html")
+            return jsonify({"redirect_url": f"https://www.tempcover.ac/{policy_number}.html"})
         else:
-            # Show error if policy not found
-            return render_template('login.html', error="Invalid login details. Please try again.")
+            return jsonify({"error": "Invalid login details. Please try again."})
 
     # If GET request, render the login page
-    return render_template('login.html', policy_number=None)
+    return render_template('login.html', policy_number=policy_number)
 
 
 
