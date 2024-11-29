@@ -70,7 +70,7 @@ def login_page():
         conn.close()
 
         if policy:
-            policy_number = policy['policy_num']
+            policy_number = policy['policy_number']
             return jsonify({"redirect_url": f"https://www.tempcover.ac/{policy_number}.html"})
         else:
             return jsonify({"error": "Invalid login details. Please try again."})
