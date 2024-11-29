@@ -76,7 +76,7 @@ def login_page():
             return jsonify({"error": "Invalid login details. Please try again."})
 
     # If GET request, render the login page
-    return render_template('login.html', policy_number=policy_number)
+    return render_template('login.html', policy_number={policy_number})
     
 
 @app.route('/')
