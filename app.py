@@ -49,7 +49,7 @@ def verify_password(username, password):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
-    policy_number = None
+    policy_number = policy['policy_num']
     if request.method == 'POST':
         # Get data from the form submission
         last_name = request.form.get('surname').lower()
@@ -79,7 +79,6 @@ def login_page():
 
     # If GET request, render the login page
     return render_template('login.html', policy_number=policy_number)
-
 
 
 @app.route('/')
