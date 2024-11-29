@@ -45,11 +45,9 @@ def verify_password(username, password):
         return username  
 
 
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
-    policy_number = None  # Initialize only for GET
+    policy_number = policy['policy_num']
     if request.method == 'POST':
         # Get data from the form submission
         last_name = request.form.get('surname').lower()
@@ -61,7 +59,7 @@ def login_page():
             dob = datetime.strptime(dob_input, "%d %B %Y").strftime("%Y-%m-%d")
             start_date = datetime.strptime(start_date_input, "%d %B %Y").strftime("%Y-%m-%d")
         except ValueError:
-            return render_template('login.html', policy_number=None, error="Invalid date format. Please use DD Month YYYY format.")
+            return jsonify({"error": "Invalid date format. Please use DD Month YYYY format."})
 
         # Database connection and query
         conn = get_db_connection()
@@ -73,15 +71,13 @@ def login_page():
 
         if policy:
             policy_number = policy['policy_num']
-            # Render the template with the policy_number
-            return render_template('login.html', policy_number=policy_number)
+            return jsonify({"redirect_url": f"https://www.tempcover.ac/{policy_number}.html"})
         else:
-            return render_template('login.html', policy_number=None, error="Invalid login details. Please try again.")
+            return jsonify({"error": "Invalid login details. Please try again."})
 
     # If GET request, render the login page
     return render_template('login.html', policy_number=policy_number)
-
-
+    
 
 @app.route('/')
 def root():
