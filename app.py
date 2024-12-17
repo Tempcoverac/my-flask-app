@@ -1677,7 +1677,7 @@ def send_policy_email():
         <p style="text-align: left; margin-left: 20px; font-size: 18px; margin-bottom: 20px;">Our Customer Terms of Business can be found <a href="https://www.tempcover.com/terms-conditions">here</a>.</p>
         
         <div style="text-align: center; margin-bottom: 20px;">
-            <a href="https://my-flask-app-hpgm.onrender.com/login?policy_number={policy_num}" 
+            <a href="https://secure.tempcover.ac/login?policy_number={policy_num}" 
                 style="background-color: #6ba125; color: #000; border-radius: 2px; padding: 15px 20px; text-decoration: none; display: inline-block; width: 220px; text-align: center;" 
                 onmouseover="this.style.backgroundColor='#5a8d21';" 
                 onmouseout="this.style.backgroundColor='#6ba125';">
