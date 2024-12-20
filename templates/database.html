@@ -29,10 +29,15 @@
             text-decoration: none;
             font-size: 16px;
         }
+        .table-container {
+            width: 100%;
+            overflow-x: auto; /* Enable horizontal scrolling */
+        }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            min-width: 600px; /* Ensures a minimum table width for horizontal scrolling */
         }
         th, td {
             padding: 10px;
@@ -76,32 +81,35 @@
             <input type="text" id="searchBar" class="search-input" placeholder="Search policies..." onkeyup="searchPolicies()">
         </div>
 
-        <table id="policyTable">
-            <tr>
-                <th>Policy Number</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email Address</th>
-                <th>Vehicle Registration</th>
-                <th>Effective Date/Time</th>
-                <th>Expiry Date/Time</th>
-                <th>Actions</th>
-            </tr>
-            {% for policy in policies %}
-            <tr class="policy-row">
-                <td>{{ policy.policy_num }}</td>
-                <td>{{ policy.first_name }}</td>
-                <td>{{ policy.last_name }}</td>
-                <td>{{ policy.email }}</td>
-                <td>{{ policy.vehicle_reg_number }}</td>
-                <td>{{ policy.policy_start_datetime }}</td>
-                <td>{{ policy.policy_end_datetime }}</td>
-                <td>
-                    <a href="{{ url_for('index', policy_number=policy.policy_num) }}" class="edit-button">Edit</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+        <!-- Table container for horizontal scrolling -->
+        <div class="table-container">
+            <table id="policyTable">
+                <tr>
+                    <th>Policy Number</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email Address</th>
+                    <th>Vehicle Registration</th>
+                    <th>Effective Date/Time</th>
+                    <th>Expiry Date/Time</th>
+                    <th>Actions</th>
+                </tr>
+                {% for policy in policies %}
+                <tr class="policy-row">
+                    <td>{{ policy.policy_num }}</td>
+                    <td>{{ policy.first_name }}</td>
+                    <td>{{ policy.last_name }}</td>
+                    <td>{{ policy.email }}</td>
+                    <td>{{ policy.vehicle_reg_number }}</td>
+                    <td>{{ policy.policy_start_datetime }}</td>
+                    <td>{{ policy.policy_end_datetime }}</td>
+                    <td>
+                        <a href="{{ url_for('index', policy_number=policy.policy_num) }}" class="edit-button">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
 
     <script>
