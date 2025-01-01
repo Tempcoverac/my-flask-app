@@ -1479,7 +1479,7 @@ def generate_html_content(policy_number, first_name, last_name, vehicle_reg_numb
 
 # Add this function for connecting to the database
 def get_db_connection():
-    conn = sqlite3.connect('insurance.db')
+    conn = sqlite3.connect(''/var/data/insurance.db'')
     conn.row_factory = sqlite3.Row  # Access rows as dictionaries
     return conn
 
